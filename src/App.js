@@ -13,28 +13,32 @@ import {
 import { useState } from "react";
 import { clear } from "@testing-library/user-event/dist/clear";
 
-function App() { -
-  const students = [{id: 1, name: 'Nguyen Van A', code: 'CODE12345', status:'Active', selected: true}
+function App() { 
+  const students = [{id: 1, name: 'Nguyen Van A', code: 'CODE12345', status:'Active', selected: true},
     {id: 2, name: 'Tran Van B', code: 'CODE67890', status:'In-active', selected: true}
-  ]
+  ];
   useState(students)
-  const [allStudent, setAllStudents] = useState(students);
+  const [allStudents, setAllStudents] = useState(students);
   
   const clearHandler = () => {
     setAllStudents([]);
   }
 
-  const selectHandler = (id) => { -
-    const newStudents= students.map(item => { -
-      if(item.id === id){
-        item.selected === id ? item.selected;
-      }
-      return {
+  const selectHandler = (id) => { 
+    const newStudents= students.map(item => { 
+    //  if(item.id === id){
+    //    item.selected === id ? item.selected
+   // }
+      return item.id === id ? {
         ...item,
         selected: !item.selected
-      };
-    })
+      } : item; 
+    });
     setAllStudents(newStudents)
+  }
+
+  const statusVariant = (status) => {
+    return status === 'Active' ? 'success' : 'danger';
   }
 
   return (
@@ -76,7 +80,7 @@ function App() { -
           <td>{item.name}</td>
           <td>{item.code}</td>
           <td>
-            <Button variant="info">{item.status}</Button>
+            <Button variant={statusVariant(item.status)}>{item.status}</Button>
           </td>
           <td>
             <Button variant="danger">Delete</Button>
